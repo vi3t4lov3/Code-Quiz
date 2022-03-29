@@ -1,17 +1,21 @@
-var countdownEl = document.getElementById('countdown');
+var quiztimeEl = document.querySelector('.time');
 
+// countdownEl.textContent = "test";
 
-
-function countdown() {
-    var timeLeft = 500;
-    
-    var timeInterval = setInterval(function () {
-        if (timeLeft < 1) {
-            countdownEl.textContent = timeLeft + ' seconds';
-            timeLeft--;
-        } else {
-            countdownEl.textContent = "";
-            clearInterval(timeInterval); //stop the timer
+function quizTime() {
+    var timeLeft = 50;
+    var timeInterval = setInterval(function(){
+        timeLeft--;
+        quiztimeEl.textContent = `Quiz Time: ${timeLeft} seconds`;
+        if (timeLeft === 0) {
+            clearInterval(timeInterval);
+            gameOver(); // call function to create the message when time up
         }
-    }, 1000);
+    }, 1000);   
 }
+// game over message
+function gameOver() {
+    quiztimeEl.textContent ="";
+
+}
+quizTime();
