@@ -21,9 +21,9 @@ var questionList = [
     },
     {
         question: "what is your name 2?",
-        answer: [".test 1", ".test 2", ".test 3", ".test 4"],
+        answer: [".test 1d", ".test d2", ".test d3", ".test d4"],
         correctAnswer: ".test 4"
-    },
+    }
 ];
 
 
@@ -33,7 +33,7 @@ function startTimer() {
     timeCount = 500
     startButton.disabled = true;
     startQuiz();
-    displayQuestion();
+
 }
 //add vent listener to start button to start the timer to bigin the quiz
 startButton.addEventListener("click", startTimer);
@@ -70,31 +70,32 @@ function startQuiz() {
 function displayQuestion(){
     if (questionCount < questionList.length) {
         questionEl.innerHTML = questionList[questionCount].question;
-        answerEl.textContent = "";
+        answerEl.textContent = questionList.answer[0]
 
-        for (let i = 0; i < questionList[questionCount].answer.length; i++) {
-            let element = document.createElement("button");
-            element.innerText = questionList[questionCount].answer[i];
-            element.setAttribute("data-id", i);
-            element.addEventListener("click", function(event){
-                event.stopPropagation();
+        // for (let i = 0; i < questionList[questionCount].answer.length; i++) {
+        //     let element = document.createElement("button");
+        //     element.innerText = questionList[questionCount].answer[i];
+        //     element.setAttribute("data-id", i);
+        //     element.addEventListener("click", function(event){
+        //         event.stopPropagation();
 
-                if (element.innerText === questionList[questionCount].answer) {
-                   score += timeCount;
-                }
-                else {
-                    score -= 10;
-                    timeCount = timeCount - 15;
-                }
-                questionEl.innerHTML ="";
-                if (questionCount === questionList.length) {
-                    return;
-                } else {
-                    questionCount++;
-                    displayQuestion();
-                }
-            });
-            answerEl.append(element);
-        }
+        //         if (element.innerText === questionList[questionCount].answer) {
+        //            score += timeCount;
+        //         }
+        //         else {
+        //             score -= 10;
+        //             timeCount = timeCount - 15;
+        //         }
+        //         questionEl.innerHTML ="";
+        //         if (questionCount === questionList.length) {
+        //             return;
+        //         } else {
+        //             questionCount++;
+        //             displayQuestion();
+        //         }
+        //     });
+        //     answerEl.append(element);
+        // }
     }
 }
+displayQuestion();
