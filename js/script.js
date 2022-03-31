@@ -3,34 +3,58 @@ var startButton = document.querySelector(".start-button");
 var startagainButton = document.querySelector(".start-again-button");
 var correct = document.querySelector(".correct");
 var questionEl = document.querySelector(".question");
-var answerEl = document.querySelector(".anwser");
+var answerEl = document.querySelector(".answer");
 var viewscoreEl = document.querySelector(".score");
-
-
 
 var timer;
 var timeCount;
-var questionCount = 0;
-var score = 0 ;
 
 var questionList = [
     {
-        question: "what is your name 1?",
-        answer: [".test 1", ".test 2", ".test 3", ".test 4"],
-        correctAnswer: ".test 1"
+        question: `How do you write "Hello World" in an alert box?`,
+        answer: [
+            `A. msgBox("Hello World")`,
+            `B. alert("Hello World")`,
+            `C. msg("Hello World")`,
+            `D. alertBox("Hello World")`
+        ],
+        correctAnswer: `B. alert("Hello World")`
     },
     {
-        question: "what is your name 2?",
-        answer: [".test 1d", ".test d2", ".test d3", ".test d4"],
-        correctAnswer: ".test 4"
-    }
+        question: `How does a FOR loop start?`,
+        answer: [
+            `A. for i = 1 to 5`,
+            `B. for (i <= 5; i++)`,
+            `C. for (i = 0; i <= 5; i++)`,
+            `D. for (i = 0; i <= 5)`
+        ],
+        correctAnswer: `C. for (i = 0; i <= 5; i++)`
+    },
+    {
+        question: `JavaScript is the same as Java.`,
+        answer: [
+            `A. False`,
+            `B. True`,
+        ],
+        correctAnswer: `A. False`
+    },
+    {
+        question: `How can you add a comment in a JavaScript?`,
+        answer: [
+            `A. 'This is a comment`,
+            `B. // This is a comment`,
+            `C. <!-- This is a comment -->`,
+            `D. /* This is a comment */`
+        ],
+        correctAnswer: `B. // This is a comment`
+    },
 ];
 
 
 
 // start timer
 function startTimer() {
-    timeCount = 500
+    timeCount = 90
     startButton.disabled = true;
     startQuiz();
 
@@ -40,7 +64,7 @@ startButton.addEventListener("click", startTimer);
 // startagainButton.addEventListener("click", startQuiz)
 
 function startQuiz() {
-  
+    
     //set timers
     timer = setInterval(function () {
         timeCount --;
@@ -57,45 +81,39 @@ function startQuiz() {
         } 
     }, 1000)
 }
-// view score funtion
-// function viewScore() {
-//     viewscoreEl.addEventListener("click", function(event) {
-//         event.preventDefault();
-//         displayScore();
-//         goback();
-//     })
-// }
 
-// display question
+// display the quiz question 
 function displayQuestion(){
+    var questionCount = 0;
+    var score = 0 ;
     if (questionCount < questionList.length) {
         questionEl.innerHTML = questionList[questionCount].question;
-        answerEl.textContent = questionList.answer[0]
+        answerEl.textContent = " ";
+        //get answers from array
+        for (let i = 0; i < questionList[questionCount].answer.length; i++) {
+            let element = document.createElement("button"); 
+            element.innerText = questionList[questionCount].answer[i];
+            element.setAttribute("data-id", i); //create class attribute
+            element.addEventListener("click", function(event){
+                event.stopPropagation();
 
-        // for (let i = 0; i < questionList[questionCount].answer.length; i++) {
-        //     let element = document.createElement("button");
-        //     element.innerText = questionList[questionCount].answer[i];
-        //     element.setAttribute("data-id", i);
-        //     element.addEventListener("click", function(event){
-        //         event.stopPropagation();
-
-        //         if (element.innerText === questionList[questionCount].answer) {
-        //            score += timeCount;
-        //         }
-        //         else {
-        //             score -= 10;
-        //             timeCount = timeCount - 15;
-        //         }
-        //         questionEl.innerHTML ="";
-        //         if (questionCount === questionList.length) {
-        //             return;
-        //         } else {
-        //             questionCount++;
-        //             displayQuestion();
-        //         }
-        //     });
-        //     answerEl.append(element);
-        // }
+                if (element.innerText === questionList[questionCount].correctAnswer) {
+                   score += timeCount;
+                }
+                else {
+                    score -= 5;
+                    timeCount = timeCount - 1;
+                }
+                questionEl.innerHTML ="";
+                if (questionCount === questionList.length) {
+                    return;
+                } else {
+                    questionCount++;
+                    displayQuestion();
+                }
+            });
+            answerEl.append(element);
+        }
     }
 }
 displayQuestion();
