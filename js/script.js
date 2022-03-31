@@ -64,7 +64,7 @@ startButton.addEventListener("click", startTimer);
 // startagainButton.addEventListener("click", startQuiz)
 
 function startQuiz() {
-    
+    displayQuestion();
     //set timers
     timer = setInterval(function () {
         timeCount --;
@@ -102,7 +102,7 @@ function displayQuestion(){
                 }
                 else {
                     score -= 5;
-                    timeCount = timeCount - 1;
+                    timeCount = timeCount - 10;
                 }
                 questionEl.innerHTML ="";
                 if (questionCount === questionList.length) {
@@ -116,4 +116,3 @@ function displayQuestion(){
         }
     }
 }
-displayQuestion();
