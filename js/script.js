@@ -57,7 +57,7 @@ var questionList = [
 
 // start timer
 function startTimer() {
-    timeCount = 100;
+    timeCount = 5;
     // startButton.disabled = true;
     startQuiz();
 
@@ -119,19 +119,47 @@ function displayQuestion(){
     }
 }
 //varibale for the array of hight scores from local
+var saveRecordEl = document.querySelector(".save-record");
 var storeArrays = JSON.parse(window.localStorage.getItem("highScores"))
 var scoreEl = document.querySelector(".score");
 //display the results
 function displayResults() {
-    quizcontainerEl.remove();
-   
+    quizcontainerEl.remove(); 
+    if (score === 0) {
+        scoreEl.innerHTML = `Your score: ${score} point`;
+    } else
     scoreEl.innerHTML = `Your score: ${score} points`;
-  
+    goBack()
+};
 
+//go back button 
+var backButtonEl = document.querySelector(".back-button");
+function goBack() {
+    var backbtn = document.createElement("input");
+    backbtn.setAttribute("type", "button");
+    backbtn.setAttribute("value", "Go Back");
+    backbtn.addEventListener("click", function(event) {
+        event.preventDefault();
+        window.location.reload(); //reload page
+    })
+    backButtonEl.append(backbtn);
 }
 
-//reset the scores 
-var resetButton = document.createElement("reset-button");
-function resetScores() {
-    score = 0;
+// save record
+function saveRecord() {
+    var record = {
+        yourName: yourName.value,
+        score: yourScore.value,
+    };
+    localStorage.setItem("record", JSON.stringify(record));
 }
+
+//view highScores
+function viewHighScores() {
+    // viewscoresEl.textContent = `click me`
+    viewscoresEl.addEventListener("click", function(event) {
+        event.preventDefault();
+        displayResults();
+    })
+}
+viewHighScores()
