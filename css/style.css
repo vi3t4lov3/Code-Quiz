@@ -1,7 +1,7 @@
 body {
     background-color: #eff5f8
   }
-  
+
   .start-button {
     padding: 10px;
     margin: 24px;
@@ -13,7 +13,8 @@ body {
   button {
     display:flex;
     flex-direction: row;
-    margin-bottom: 5px;
+    padding: 3px;
+    margin: 3px;
     min-width: 20%;
   }
 .question {
@@ -23,6 +24,9 @@ body {
   nav {
       display: flex;
       justify-content: space-between;
+      background-color: #13293d;
+      color: white;
+      padding: 10px;
   }
   .header-container {
     display: block;
@@ -33,5 +37,12 @@ body {
     width: 60vw;
     background-color: #f0ead6;
   }
-  
+  .quiz-container {
+    margin: 80px auto;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 70vw;
+    background-color: #f0ead6;
+  }
   
