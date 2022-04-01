@@ -57,14 +57,11 @@ var questionList = [
     }
 ];
 
-// init function when the page loads
-function init() {
 
-}
 // start timer
 function startTimer() {
     timeCount = 2;
-    // startButton.disabled = true;
+    startButton.disabled = true;
     startQuiz();
 
 }
@@ -92,6 +89,7 @@ function startQuiz() {
 
 // display the quiz question 
 function displayQuestion(){
+    
     if (questionCount < questionList.length) {
         questionEl.innerHTML = questionList[questionCount].question;
         answerEl.textContent = "";
@@ -130,20 +128,19 @@ function displayQuestion(){
 //display the results
 function displayResults() {
     // viewscoresEl.remove();
-    viewscoresEl.textContent = `Clear Score`;
     quizcontainerEl.remove(); 
-    if (score === 0) {
-        scoreEl.innerHTML = `Your score: ${score} point`;
-    }
-    else
-    scoreEl.innerHTML = `Your score: ${score} points`;
+    // if (score === 0) {
+    //     scoreEl.innerHTML = `Your score: ${score} point`;
+    // }
+    // else
+    // scoreEl.innerHTML = `Your score: ${score} points`;
     saveRecord()
     goBack()
 
 };
 // save record
 function saveRecord() {
-    scoreEl.innerHTML = `You scored ${score} points! Enter your name: `;
+    scoreEl.innerHTML = `You got ${score} points! Please enter your name: `;
     var nameInput = document.createElement('input');
     var saveBtn = document.createElement('input');
     nameInput.setAttribute("type", "text");
@@ -151,20 +148,33 @@ function saveRecord() {
     saveBtn.setAttribute("value", "Save");
     saveBtn.addEventListener("click", function(event) {
         event.preventDefault();
-        // scoreEl = score;
         var user = {
             yourName: nameInput.value,
             yourScores: score
         }
         localStorage.setItem("user", JSON.stringify(user));
-        console.log(user.yourName);
-        console.log(user.yourScores);
+        // console.log(user.yourName);
+        // console.log(user.yourScores);
     })
     
     saveEl.append(saveBtn);
     scoreEl.append(nameInput);
-    // scoreEl.append(saveBtn)
 }
+// get the data from local saving
+function renderRecord (){
+    var lastScore = JSON.parse(localStorage.getItem("user"))
+    nameEl.innerHTML =  lastScore.yourName;
+    scoreEl.innerHTML = lastScore.yourScores;
+}
+//view record scores
+function viewRecord (){
+    viewscoresEl.textContent = `View HighScore`;
+    viewscoresEl.addEventListener("click", function(event){
+        event.preventDefault();
+        renderRecord ()
+    })
+}
+
 
 //go back button 
 var backButtonEl = document.querySelector(".back-button");
@@ -178,3 +188,5 @@ function goBack() {
     })
     backButtonEl.append(backbtn);
 }
+
+viewRecord ()
