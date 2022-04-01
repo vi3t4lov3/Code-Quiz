@@ -8,6 +8,9 @@ var answerEl = document.querySelector(".answer");
 var viewscoresEl = document.querySelector(".view-scores");
 var displayresultsEl = document.querySelector(".quiz-result")
 var quizcontainerEl = document.querySelector(".quiz-container");
+var nameEl = document.querySelector(".name");
+var scoreEl = document.querySelector(".score");
+var saveEl = document.querySelector(".save-record");
 
 var timer;
 var timeCount;
@@ -54,10 +57,13 @@ var questionList = [
     }
 ];
 
+// init function when the page loads
+function init() {
 
+}
 // start timer
 function startTimer() {
-    timeCount = 5;
+    timeCount = 2;
     // startButton.disabled = true;
     startQuiz();
 
@@ -118,19 +124,47 @@ function displayQuestion(){
         }
     }
 }
-//varibale for the array of hight scores from local
-var saveRecordEl = document.querySelector(".save-record");
-var storeArrays = JSON.parse(window.localStorage.getItem("highScores"))
-var scoreEl = document.querySelector(".score");
+
+
+
 //display the results
 function displayResults() {
+    // viewscoresEl.remove();
+    viewscoresEl.textContent = `Clear Score`;
     quizcontainerEl.remove(); 
     if (score === 0) {
         scoreEl.innerHTML = `Your score: ${score} point`;
-    } else
+    }
+    else
     scoreEl.innerHTML = `Your score: ${score} points`;
+    saveRecord()
     goBack()
+
 };
+// save record
+function saveRecord() {
+    scoreEl.innerHTML = `You scored ${score} points! Enter your name: `;
+    var nameInput = document.createElement('input');
+    var saveBtn = document.createElement('input');
+    nameInput.setAttribute("type", "text");
+    saveBtn.setAttribute("type", "button");
+    saveBtn.setAttribute("value", "Save");
+    saveBtn.addEventListener("click", function(event) {
+        event.preventDefault();
+        // scoreEl = score;
+        var user = {
+            yourName: nameInput.value,
+            yourScores: score
+        }
+        localStorage.setItem("user", JSON.stringify(user));
+        console.log(user.yourName);
+        console.log(user.yourScores);
+    })
+    
+    saveEl.append(saveBtn);
+    scoreEl.append(nameInput);
+    // scoreEl.append(saveBtn)
+}
 
 //go back button 
 var backButtonEl = document.querySelector(".back-button");
@@ -144,22 +178,3 @@ function goBack() {
     })
     backButtonEl.append(backbtn);
 }
-
-// save record
-function saveRecord() {
-    var record = {
-        yourName: yourName.value,
-        score: yourScore.value,
-    };
-    localStorage.setItem("record", JSON.stringify(record));
-}
-
-//view highScores
-function viewHighScores() {
-    // viewscoresEl.textContent = `click me`
-    viewscoresEl.addEventListener("click", function(event) {
-        event.preventDefault();
-        displayResults();
-    })
-}
-viewHighScores()
