@@ -5,13 +5,14 @@ var startagainButton = document.querySelector(".start-again-button");
 var correct = document.querySelector(".correct");
 var questionEl = document.querySelector(".question");
 var answerEl = document.querySelector(".answer");
+var commentEl = document.querySelector(".comment");
 var viewscoresEl = document.querySelector(".view-scores");
 var displayresultsEl = document.querySelector(".quiz-result")
 var quizcontainerEl = document.querySelector(".quiz-container");
 var nameEl = document.querySelector(".name");
 var scoreEl = document.querySelector(".score");
 var saveEl = document.querySelector(".save-record");
-
+var resetEl = document.querySelector(".reset");
 var timer;
 var timeCount;
 var questionCount = 0;
@@ -57,13 +58,15 @@ var questionList = [
     }
 ];
 
+function init() {
+    viewRecord();
+}
 
 // start timer
 function startTimer() {
-    timeCount = 2;
+    timeCount = 90;
     startButton.disabled = true;
     startQuiz();
-
 }
 //add vent listener to start button to start the timer to bigin the quiz
 startButton.addEventListener("click", startTimer);
@@ -99,14 +102,16 @@ function displayQuestion(){
             element.innerText = questionList[questionCount].answer[i];
             element.setAttribute("data-id", i); //create class attribute
             element.addEventListener("click", function(event){
-                event.stopPropagation();
+                event.preventDefault();
 
                 if (element.innerText === questionList[questionCount].correctAnswer) {
                    score += 30; //+ 30 points for correct answer
+                   commentEl.textContent = "Correct"
                 }
                 else {
                     score -= 15; // - 15 points for incorrect answer plus - 15 seconds to the timecount
                     timeCount = timeCount - 15;
+                    commentEl.textContent = "InCorrect"
                 }
                 // console.log(score);
                 // console.log(timeCount);
@@ -127,20 +132,14 @@ function displayQuestion(){
 
 //display the results
 function displayResults() {
-    // viewscoresEl.remove();
     quizcontainerEl.remove(); 
-    // if (score === 0) {
-    //     scoreEl.innerHTML = `Your score: ${score} point`;
-    // }
-    // else
-    // scoreEl.innerHTML = `Your score: ${score} points`;
     saveRecord()
     goBack()
 
 };
 // save record
 function saveRecord() {
-    scoreEl.innerHTML = `You got ${score} points! Please enter your name: `;
+    scoreEl.innerHTML = `You got ${score} points! Please enter your name to save: `;
     var nameInput = document.createElement('input');
     var saveBtn = document.createElement('input');
     nameInput.setAttribute("type", "text");
@@ -148,6 +147,7 @@ function saveRecord() {
     saveBtn.setAttribute("value", "Save");
     saveBtn.addEventListener("click", function(event) {
         event.preventDefault();
+        
         var user = {
             yourName: nameInput.value,
             yourScores: score
@@ -159,22 +159,44 @@ function saveRecord() {
     
     saveEl.append(saveBtn);
     scoreEl.append(nameInput);
+    
 }
 // get the data from local saving
 function renderRecord (){
     var lastScore = JSON.parse(localStorage.getItem("user"))
-    nameEl.innerHTML =  lastScore.yourName;
-    scoreEl.innerHTML = lastScore.yourScores;
+    if (localStorage.getItem("user") !== null) {
+        nameEl.innerHTML =  `Your Name: ${lastScore.yourName}`;
+        scoreEl.innerHTML = `Your Score: ${lastScore.yourScores}`;
+    }
+    else {
+        resetEl.remove();
+        nameEl.innerHTML =  `You have no recorded, please go back and start the quiz`;
+        scoreEl.innerHTML = ``; 
+    }
+    goBack()
 }
-//view record scores
+//display the score form local
 function viewRecord (){
-    viewscoresEl.textContent = `View HighScore`;
-    viewscoresEl.addEventListener("click", function(event){
+        viewscoresEl.addEventListener("click", function(event){
         event.preventDefault();
+        headercontainerEl.remove();
         renderRecord ()
-    })
+        clearRecord()
+        })
 }
-
+//reset clear the score
+function clearRecord () {
+    var resetBtn = document.createElement('input');
+    resetBtn.setAttribute("type", "button");
+    resetBtn.setAttribute("value", "Reset");
+    resetBtn.addEventListener("click", function(event) {
+        event.preventDefault();
+        nameEl.remove();
+        scoreEl.remove();
+        window.localStorage.removeItem("user");
+    })
+    resetEl.append(resetBtn)
+}
 
 //go back button 
 var backButtonEl = document.querySelector(".back-button");
@@ -189,4 +211,4 @@ function goBack() {
     backButtonEl.append(backbtn);
 }
 
-viewRecord ()
+init()

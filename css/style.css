@@ -37,7 +37,7 @@ body {
     width: 60vw;
     background-color: #f0ead6;
   }
-  .quiz-container {
+  .quiz-container  {
     margin: 80px auto;
     text-align: center;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -45,4 +45,7 @@ body {
     width: 70vw;
     background-color: #f0ead6;
   }
-  
+  /* .quiz-result {
+    text-align: left;
+    background-color: #f0ead6;
+  } */
