@@ -81,7 +81,6 @@ function startTimer() {
 }
 //add vent listener to start button to start the timer to bigin the quiz
 startButton.addEventListener("click", startTimer);
-// startagainButton.addEventListener("click", startQuiz)
 
 function startQuiz() {
     headercontainerEl.remove();
@@ -138,8 +137,6 @@ function displayQuestion(){
         }
     }
 }
-
-
 
 //display the results
 function displayResults() {
