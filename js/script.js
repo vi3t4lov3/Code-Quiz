@@ -56,6 +56,17 @@ var questionList = [
         ],
         correctAnswer: `B. // This is a comment`
     }
+    ,
+    {
+        question: `Properties in a JavaScript oject are often refferred to as what?`,
+        answer: [
+            `A. dot walking`,
+            `B. key-value pairs`,
+            `C. nested properties`,
+            `D. undefined`
+        ],
+        correctAnswer: `B. key-value pairs`
+    }
 ];
 
 function init() {
@@ -147,7 +158,6 @@ function saveRecord() {
     saveBtn.setAttribute("value", "Save");
     saveBtn.addEventListener("click", function(event) {
         event.preventDefault();
-        
         var user = {
             yourName: nameInput.value,
             yourScores: score
